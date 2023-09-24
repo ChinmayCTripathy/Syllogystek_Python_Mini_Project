@@ -98,9 +98,16 @@ def findPatientsWhoNeedFollowUp(patients):
     return: A list of patient IDs that need follow-up visits to to abnormal health stats.
     """
     followup_patients = []
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    for patientId, visits_list in patients.items():
+        last_visit = visits_list[-1]  # Get the last visit for each patient
+
+        temperature, heart_rate, respiratory_rate, systolic_bp, diastolic_bp, spo2 = last_visit[1:7]
+
+        # Check if any vital signs are abnormal
+        if (temperature > 37.5 or temperature < 36.0) or (heart_rate > 100 or heart_rate < 60) or \
+           (systolic_bp > 140 or systolic_bp < 90) or (diastolic_bp > 90 or diastolic_bp < 60):
+            followup_patients.append(patientId)
+            
     return followup_patients
 
 
