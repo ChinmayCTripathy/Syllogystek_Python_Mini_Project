@@ -68,9 +68,62 @@ def addPatientData(patients, patientId, date, temp, hr, rr, sbp, dbp, spo2, file
     spo2: The patient's oxygen saturation level.
     fileName: The name of the file to append new data to.
     """
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    try:
+        # Validate patient ID
+        if not str(patientId).isdigit() or int(patientId) <= 0:
+            raise ValueError("Invalid patient ID. Please enter a positive integer.")
+        
+        # Validate date format using regular expression
+        if not re.match(r'^\d{4}-\d{2}-\d{2}$', date):
+            raise ValueError("Invalid date format. Please enter date in the format 'yyyy-mm-dd'.")
+        
+        # Validate date values
+        year, month, day = map(int, date.split('-'))
+        if not (1900 <= year <= 9999 and 1 <= month <= 12 and 1 <= day <= 31):
+            raise ValueError("Invalid date. Please enter a valid date.")
+        
+        # Validate temperature
+        if not (35.0 <= float(temp) <= 42.0):
+            raise ValueError("Invalid temperature. Please enter a temperature between 35.0 and 42.0 Celsius.")
+        
+        # Validate heart rate
+        if not (30 <= int(hr) <= 180):
+            raise ValueError("Invalid heart rate. Please enter a heart rate between 30 and 180 bpm.")
+        
+        # Validate respiratory rate
+        if not (5 <= int(rr) <= 40):
+            raise ValueError("Invalid respiratory rate. Please enter a respiratory rate between 5 and 40 bpm.")
+        
+        # Validate systolic blood pressure
+        if not (70 <= int(sbp) <= 200):
+            raise ValueError("Invalid systolic blood pressure. Please enter a systolic blood pressure between 70 and 200 mmHg.")
+        
+        # Validate diastolic blood pressure
+        if not (40 <= int(dbp) <= 120):
+            raise ValueError("Invalid diastolic blood pressure. Please enter a diastolic blood pressure between 40 and 120 mmHg.")
+        
+        # Validate oxygen saturation
+        if not (70 <= int(spo2) <= 100):
+            raise ValueError("Invalid oxygen saturation. Please enter an oxygen saturation between 70 and 100%.")
+        
+        # Append new data to patients dictionary
+        new_visit = [date, temp, hr, rr, sbp, dbp, spo2]
+        if int(patientId) in patients:
+            patients[int(patientId)].append(new_visit)
+        else:
+            patients[int(patientId)] = [new_visit]
+        
+        # Append new data to file
+        with open(fileName, 'a') as file:
+            file.write(f"\n{patientId},{','.join(map(str, new_visit))}")
+        
+        # Display success message
+        print(f"Visit is saved successfully for Patient #{patientId}")
+    
+    except ValueError as ve:
+        print(ve)
+    except Exception as e:
+        print("An unexpected error occurred while adding new data:", e)
 
 
 
