@@ -346,13 +346,7 @@ def deleteAllVisitsOfPatient(patients, patientId, filename):
 
 
 
-###########################################################################
-###########################################################################
-#                                                                         #
-#   The following code is being provided to you. Please don't modify it.  #
-#                                                                         #
-###########################################################################
-###########################################################################
+
 
 def main():
     patients = readPatientsFromFile('patients.txt')
