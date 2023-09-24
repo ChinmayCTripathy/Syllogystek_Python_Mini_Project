@@ -47,9 +47,63 @@ def displayStats(patients, patientId=0):
     patients: A dictionary of patient IDs, where each patient has a list of visits.
     patientId: The ID of the patient to display vital signs for. If 0, vital signs will be displayed for all patients.
     """
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    try:
+        patientId = int(patientId)  # Convert patientId to an integer
+        # Display statistics for all patients or a specific patient
+        
+        if patientId == 0:
+            print("Vital Signs for All Patients:")
+            # Calculate and display average values
+            num_patients = len(patients)
+            temp_sum = hr_sum = rr_sum = sbp_sum = dbp_sum = spo2_sum = 0
+            num_visits = 0
+            for visits in patients.values():
+                for visit in visits:
+                    num_visits += 1
+                    temp_sum += visit[1]
+                    hr_sum += visit[2]
+                    rr_sum += visit[3]
+                    sbp_sum += visit[4]
+                    dbp_sum += visit[5]
+                    spo2_sum += visit[6]
+            if num_visits == 0:
+                print("No data found")
+                return
+            print(" Average temperature:", "%.2f" % (temp_sum / num_visits), "C")
+            print(" Average heart rate:", "%.2f" % (hr_sum / num_visits), "bpm")
+            print(" Average respiratory rate:", "%.2f" % (rr_sum / num_visits), "bpm")
+            print(" Average systolic blood pressure:", "%.2f" % (sbp_sum / num_visits), "mmHg")
+            print(" Average diastolic blood pressure:", "%.2f" % (dbp_sum / num_visits), "mmHg")
+            print(" Average oxygen saturation:", "%.2f" % (spo2_sum / num_visits), "%")
+        else:
+            # Display statistics for a specific patient
+            if patientId in patients:
+                print(f"Vital Signs for Patient {patientId}:")
+                visits = patients[patientId]
+                num_visits = len(visits)
+                if num_visits == 0:
+                    print("No data found")
+                    return
+                temp_sum = hr_sum = rr_sum = sbp_sum = dbp_sum = spo2_sum = 0
+                for visit in visits:
+                    temp_sum += visit[1]
+                    hr_sum += visit[2]
+                    rr_sum += visit[3]
+                    sbp_sum += visit[4]
+                    dbp_sum += visit[5]
+                    spo2_sum += visit[6]
+                print(" Average temperature:", "%.2f" % (temp_sum / num_visits), "C")
+                print(" Average heart rate:", "%.2f" % (hr_sum / num_visits), "bpm")
+                print(" Average respiratory rate:", "%.2f" % (rr_sum / num_visits), "bpm")
+                print(" Average systolic blood pressure:", "%.2f" % (sbp_sum / num_visits), "mmHg")
+                print(" Average diastolic blood pressure:", "%.2f" % (dbp_sum / num_visits), "mmHg")
+                print(" Average oxygen saturation:", "%.2f" % (spo2_sum / num_visits), "%")
+            else:
+                print(f"Patient with ID {patientId} not found.")
+    except ValueError:
+        raise ValueError("Error: 'patientId' should be an integer.")
+    except Exception as e:
+        print("An error occurred:", e)
 
 
 
