@@ -84,9 +84,40 @@ def displayPatientData(patients, patientId=0):
     patients: A dictionary of patient dictionaries, where each patient has a list of visits.
     patientId: The ID of the patient to display data for. If 0, data for all patients will be displayed.
     """
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    try:
+        # Display data for all patients or a specific patient
+
+        if patientId == 0:
+            for patient_id, visits in patients.items():
+                print(f"Patient ID: {patient_id}")
+                for visit in visits:
+                    print(" Visit Date:", visit[0])
+                    print(" " * 2, "Temperature:", "%.2f" % visit[1], "C")
+                    print(" " * 2, "Heart Rate:", visit[2], "bpm")
+                    print(" " * 2, "Respiratory Rate:", visit[3], "bpm")
+                    print(" " * 2, "Systolic Blood Pressure:", visit[4], "mmHg")
+                    print(" " * 2, "Diastolic Blood Pressure:", visit[5], "mmHg")
+                    print(" " * 2, "Oxygen Saturation:", visit[6], "%")
+                    print()
+        else:
+            # Display data for a specific patient
+
+            if patientId in patients:
+                print(f"Patient ID: {patientId}")
+                for visit in patients[patientId]:
+                    print(" Visit Date:", visit[0])
+                    print(" " * 2, "Temperature:", "%.2f" % visit[1], "C")
+                    print(" " * 2, "Heart Rate:", visit[2], "bpm")
+                    print(" " * 2, "Respiratory Rate:", visit[3], "bpm")
+                    print(" " * 2, "Systolic Blood Pressure:", visit[4], "mmHg")
+                    print(" " * 2, "Diastolic Blood Pressure:", visit[5], "mmHg")
+                    print(" " * 2, "Oxygen Saturation:", visit[6], "%")
+                    print()
+            else:
+                print(f"Patient with ID {patientId} not found.")
+    except Exception as e:
+        print("An error occurred:", e)
+
 
 
 def displayStats(patients, patientId=0):
