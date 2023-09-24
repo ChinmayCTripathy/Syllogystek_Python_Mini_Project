@@ -271,10 +271,31 @@ def findVisitsByDate(patients, year=None, month=None):
     return: A list of tuples containing patient ID and visit that match the filter.
     """
     visits = []
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
-    return visits
+    
+    try:
+        # Convert year and month to strings if they are not None
+        year_str = str(year) if year is not None else None
+        if month is not None:
+            month_str = str(int(month))  # Convert to int and back to remove leading zero
+            if len(month_str) == 1:
+                month_str = '0' + month_str
+        else:
+            month_str = None
+        # Iterate through patients and their visits
+        for patientId, visits_list in patients.items():
+            for visit in visits_list:
+                # Parse visit date
+                visit_date = visit[0]
+
+                # Check if year and month filters match
+                if (not year_str or visit_date.startswith(year_str)) and (not month_str or visit_date[5:7] == month_str):
+                    visits.append((patientId, visit))
+
+        
+        return visits
+
+    except Exception as e:
+        raise e
 
 
 def findPatientsWhoNeedFollowUp(patients):
