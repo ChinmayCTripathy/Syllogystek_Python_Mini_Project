@@ -328,9 +328,20 @@ def deleteAllVisitsOfPatient(patients, patientId, filename):
     filename: The name of the file to save the updated patient data.
     return: None
     """
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    if patientId in patients:
+        # Remove all visits of the patient from the dictionary
+        del patients[patientId]
+
+        # Open the file in write mode to update patient data
+        with open(filename, 'w') as file:
+            for patient_id, visits_list in patients.items():
+                for visit in visits_list:
+                    visit_line = ','.join(map(str, [patient_id] + visit)) + '\n'
+                    file.write(visit_line)
+        
+        print(f"Data for patient {patientId} has been deleted.")
+    else:
+        raise ValueError(f"No data found for patient with ID {patientId}")
 
 
 
