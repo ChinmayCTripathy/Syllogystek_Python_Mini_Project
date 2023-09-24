@@ -22,9 +22,58 @@ def readPatientsFromFile(fileName):
     }
     """
     patients = {}
-    #######################
-    #### PUT YOUR CODE HERE
-    #######################
+    try:
+        # Open the file and iterate through each line
+
+        with open(fileName, 'r') as file:
+            for line_num, line in enumerate(file, start=1):
+                try:
+                    # Split the line into patient data fields
+
+                    patient_data = line.strip().split(',')
+                    if len(patient_data) != 8:
+                        raise ValueError(f"Invalid number of fields ({len(patient_data)}) in line: {line_num}")
+                    
+                    # Convert patient data to appropriate data types
+                    
+                    patient_id = int(patient_data[0])
+                    date = patient_data[1]
+                    temp = float(patient_data[2])
+                    hr = int(patient_data[3])
+                    rr = int(patient_data[4])
+                    sbp = int(patient_data[5])
+                    dbp = int(patient_data[6])
+                    spo2 = int(patient_data[7])
+                    
+                    # Validate data values
+                    
+                    if not (35 <= temp <= 42):
+                        raise ValueError(f"Invalid temperature value ({temp}) in line: {line_num}")
+                    if not (30 <= hr <= 180):
+                        raise ValueError(f"Invalid heart rate value ({hr}) in line: {line_num}")
+                    if not (5 <= rr <= 40):
+                        raise ValueError(f"Invalid respiratory rate value ({rr}) in line: {line_num}")
+                    if not (70 <= sbp <= 200):
+                        raise ValueError(f"Invalid systolic blood pressure value ({sbp}) in line: {line_num}")
+                    if not (40 <= dbp <= 120):
+                        raise ValueError(f"Invalid diastolic blood pressure value ({dbp}) in line: {line_num}")
+                    if not (70 <= spo2 <= 100):
+                        raise ValueError(f"Invalid oxygen saturation value ({spo2}) in line: {line_num}")
+                    
+                    # Append patient data to dictionary
+                    
+                    if patient_id not in patients:
+                        patients[patient_id] = []
+                    patients[patient_id].append([date, temp, hr, rr, sbp, dbp, spo2])
+                
+                except ValueError as ve:
+                    print(ve)
+                except Exception as e:
+                    print(f"An unexpected error occurred while reading line {line_num}: {e}")
+    
+    except FileNotFoundError:
+        print(f"The file '{fileName}' could not be found.")
+        
     return patients
 
 
